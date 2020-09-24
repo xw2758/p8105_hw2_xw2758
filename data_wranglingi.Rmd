@@ -1,0 +1,18 @@
+---
+title: "Homework"
+author: "Xinyi Wang"
+date: "9/24/2020"
+output: github_document
+---
+
+```{r setup}
+library(tidyverse)
+library(readxl)
+```
+
+## Problem 1
+
+```{r}
+trashwheel_df = read_xlsx("~/R_columbia/")
+```
+
