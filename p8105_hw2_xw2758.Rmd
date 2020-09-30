@@ -72,7 +72,7 @@ This dataset contains information from the Mr. Trashwheel trash collector in Bal
 
 ## Problem 2
 
-First, I l read and clean the NYC Transit data.
+First, I read and clean the NYC Transit data.
 
 ```{r read&clean, message = F, warning=F}
 subway_data = read_csv("~/R_columbia/p8105/p8105_hw2_xw2758/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
@@ -125,7 +125,7 @@ tidy_station = distinct_station %>%
 
 ## Problem 3
 
-** Read and clean data in plos-monthin**
+**Read and clean data in plos-monthin**
 
 ```{r}
 poles_month_df = read.csv("~/R_columbia/p8105/p8105_hw2_xw2758/pols-month.csv") %>%
@@ -141,7 +141,7 @@ poles_month_df = read.csv("~/R_columbia/p8105/p8105_hw2_xw2758/pols-month.csv") 
   select(-prez_gop, -prez_dem, -day)
 ```
 
-** Next, read and clean data in snp**
+**Next, read and clean data in snp**
 
 ```{r}
 snp_df = read.csv("~/R_columbia/p8105/p8105_hw2_xw2758/snp.csv") %>%
@@ -176,12 +176,12 @@ final_df = poles_month_df %>%
 
 **Last explain**
 
-+ pols-month has `r ncol(poles_month_df)` variables and `r nrow(poles_month_df)`observation. The range of year is `r range(pull(poles_month_df, year))`.
++ Pols-month has `r ncol(poles_month_df)` variables and `r nrow(poles_month_df)`observation. The range of year is `r range(pull(poles_month_df, year))`.
 
-+ snp has `r ncol(snp_df)` variables and `r nrow(snp_df)`observation. The range of year is `r range(pull(snp_df, year))`
++ Snp has `r ncol(snp_df)` variables and `r nrow(snp_df)`observation. The range of year is `r range(pull(snp_df, year))`
 
-+ pols-month has `r ncol(poles_month_df)` variables and `r nrow(poles_month_df)`observation. The range of year is `r range(pull(poles_month_df, year))`.
++ Pols-month has `r ncol(poles_month_df)` variables and `r nrow(poles_month_df)`observation. The range of year is `r range(pull(poles_month_df, year))`.
 
-+ unemployment has `r ncol(unemployment_df)` variables and `r nrow(unemployment_df)`observation. The range of year is `r range(pull(unemployment_df, year))`.
++ Unemployment has `r ncol(unemployment_df)` variables and `r nrow(unemployment_df)`observation. The range of year is `r range(pull(unemployment_df, year))`.
 
 + Final result joint dataset has `r ncol(final_df)` variables and `r nrow(final_df)`observation. The range of year is `r range(pull(final_df, year))`. It has some key varibles, including `r names(final_df)`.
