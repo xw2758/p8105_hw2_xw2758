@@ -125,8 +125,63 @@ tidy_station = distinct_station %>%
 
 ## Problem 3
 
+** Read and clean data in plos-monthin**
+
+```{r}
+poles_month_df = read.csv("~/R_columbia/p8105/p8105_hw2_xw2758/pols-month.csv") %>%
+  janitor::clean_names() %>%
+  separate(mon, into = c("year", "month", "day")) %>%
+  mutate_at(vars(year:day), as.numeric) %>%
+  mutate(month = recode(month, "1" = "January", "2" = "February", "3" = "March", "4" = "April", "5" ="May", "6" = "June", "7" = "July", "8" = "August", "9" = "September", "10" = "October", "11" = "November", "12" = "December")) %>%
+  mutate(
+    president = case_when(
+      prez_gop == "1" ~ "gop",
+      prez_dem == "1" ~ "dem"
+  )) %>% 
+  select(-prez_gop, -prez_dem, -day)
+```
+
+** Next, read and clean data in snp**
+
+```{r}
+snp_df = read.csv("~/R_columbia/p8105/p8105_hw2_xw2758/snp.csv") %>%
+  janitor::clean_names() %>%
+  separate(date, into = c("month", "day", "year")) %>%
+  mutate_at(vars(year:day), as.numeric) %>%
+  mutate(month = recode(month, "1" = "January", "2" = "February", "3" = "March", "4" = "April", "5" ="May", "6" = "June", "7" = "July", "8" = "August", "9" = "September", "10" = "October", "11" = "November", "12" = "December")) %>% 
+  select(-day) %>%
+  relocate(year, month)
+```
+
+**Then, read and clean data in unemployment**
+
+```{r}
+unemployment_df = read.csv("~/R_columbia/p8105/p8105_hw2_xw2758/unemployment.csv") %>%
+  janitor::clean_names() %>%
+  pivot_longer(
+    jan:dec,
+    names_to = "month",
+    values_to = "unem_percentage") %>%
+      mutate(month = recode(month, "jan" = "January", "feb" = "February", "mar" = "March", "apr" = "April", "may" ="May", "jun" = "June", "jul" = "July", "aug" = "August", "sep" = "September", "oct" = "October", "nov" = "November", "dec" = "December"))
+```
 
 
+**Join three datasets**
 
+```{r}
+final_df = poles_month_df %>%
+  left_join(snp_df, by = c("year","month")) %>%
+  left_join(unemployment_df, by = c("month","year"))
+```
 
+**Last explain**
 
++ pols-month has `r ncol(poles_month_df)` variables and `r nrow(poles_month_df)`observation. The range of year is `r range(pull(poles_month_df, year))`.
+
++ snp has `r ncol(snp_df)` variables and `r nrow(snp_df)`observation. The range of year is `r range(pull(snp_df, year))`
+
++ pols-month has `r ncol(poles_month_df)` variables and `r nrow(poles_month_df)`observation. The range of year is `r range(pull(poles_month_df, year))`.
+
++ unemployment has `r ncol(unemployment_df)` variables and `r nrow(unemployment_df)`observation. The range of year is `r range(pull(unemployment_df, year))`.
+
++ Final result joint dataset has `r ncol(final_df)` variables and `r nrow(final_df)`observation. The range of year is `r range(pull(final_df, year))`. It has some key varibles, including `r names(final_df)`.
