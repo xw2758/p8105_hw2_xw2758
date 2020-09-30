@@ -116,12 +116,16 @@ tidy_station = distinct_station %>%
                names_to = "route_name",
                values_to = "route_number")
   routenumberA = filter(tidy_station, route_number == "A")
-  adacom = filter(routenumberA, ada = TRUE)
+  adacom = filter(routenumberA, ada == TRUE)
 ```
 
 + `r nrow(routenumberA)` distinct stations serve the A train
 
-+ Of the stations that serve the A train, `r nrow(filter(adacom))` are ADA compliant?
++ Of the stations that serve the A train, `r nrow(filter(adacom))` are ADA compliant.
+
+## Problem 3
+
+
 
 
 
