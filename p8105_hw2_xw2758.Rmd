@@ -70,5 +70,59 @@ This dataset contains information from the Mr. Trashwheel trash collector in Bal
 * The median number of sports balls found in a dumpster in 2017 was `r trashwheel_df %>% filter(year == 2017) %>% pull(sports_balls) %>% median()`
 * The total precipitation in 2018 was `r precip_df %>% filter(year == 2018) %>% pull(total) %>% sum()` inches.
 
-## Problem 1
+## Problem 2
+
+First, I l read and clean the NYC Transit data.
+
+```{r read&clean, message = F, warning=F}
+subway_data = read_csv("~/R_columbia/p8105/p8105_hw2_xw2758/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
+  janitor::clean_names() %>%
+  select(line:entry, vending, ada) %>%
+  mutate(entry = recode(entry, YES = TRUE, NO = FALSE))
+```
+
+**Briefly explain**
+
++ This dataset is about NYC subway information, including station name, station latitude / longitude, routes served, entry, vending, entrance type, and so on.
+
++ I just use janitor to make colnames tidy and select some interesting columns. Also, I turn some character variable into logical variable by using recode function.
+
++ This dataset has `r nrow(subway_data)` rows and `r ncol(subway_data)` columns. And it is not tidy.
+
+**Answer some questions by using these data**
+
+```{r}
+distinct_station = distinct(subway_data, line, station_name, .keep_all = TRUE)
+```
+
++ There are `r nrow(distinct_station)` distinct stations.
+
++  `r nrow(filter(subway_data, ada == TRUE))` stations are ADA compliant.
+
+```{r}
+no_vending = filter(subway_data, vending == "NO")
+have_entry = filter(no_vending, entry == T)
+```
+
++ The proportion of station entrances / exits without vending allow entrance is `r nrow(have_entry) / nrow(no_vending)`.
+
+**Let's reformat the data!**
+
+```{r}
+tidy_station = distinct_station %>%
+  mutate_at(vars(route1:route11), as.character) %>%
+  pivot_longer(
+    route1:route11,
+               names_to = "route_name",
+               values_to = "route_number")
+  routenumberA = filter(tidy_station, route_number == "A")
+  adacom = filter(routenumberA, ada = TRUE)
+```
+
++ `r nrow(routenumberA)` distinct stations serve the A train
+
++ Of the stations that serve the A train, `r nrow(filter(adacom))` are ADA compliant?
+
+
+
 
